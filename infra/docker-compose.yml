@@ -1,0 +1,92 @@
+version: "3.9"
+
+services:
+  api-gateway:
+    build:
+      context: ../
+      dockerfile: apps/api-gateway/dockerfile
+    container_name: api-gateway
+    env_file:
+      - ../apps/api-gateway/.env.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../apps/api-gateway:/usr/src/app
+      - ../libs:/usr/src/libs
+    networks:
+      - service-network
+    depends_on:
+      - rabbitmq
+      - logging-service
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  logging-service:
+    build:
+      context: ../
+      dockerfile: apps/logging-service/dockerfile
+    container_name: logging-service
+    env_file:
+      - ../apps/logging-service/.env.dev
+    ports:
+      - "3001:3001"
+    volumes:
+      - ../apps/logging-service:/usr/src/app
+      - ../libs:/usr/src/libs
+    networks:
+      - service-network
+    depends_on:
+      - rabbitmq
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+  user-service:
+    build:
+      context: ../
+      dockerfile: apps/user-service/dockerfile
+    container_name: user-service
+    env_file:
+      - ../apps/user-service/.env.dev
+    ports:
+      - "3003:3003"
+    volumes:
+      - ../apps/user-service:/usr/src/app
+      - ../libs:/usr/src/libs
+    networks:
+      - service-network
+    depends_on:
+      - rabbitmq
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3003/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: rabbitmq
+    ports:
+      - "5674:5672"
+      - "15690:15672"
+    networks:
+      - service-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+networks:
+  service-network:
+    driver: bridge

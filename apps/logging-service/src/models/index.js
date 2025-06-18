@@ -1,0 +1,1 @@
+module.exports.LogModel = require("../models/log.model")

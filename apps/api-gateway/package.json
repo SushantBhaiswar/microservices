@@ -1,0 +1,39 @@
+{
+  "name": "api-gateway",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cross-env NODE_ENV=development nodemon src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "The API Gateway acts as the single entry point for all client requests into the microservice ecosystem. It is responsible for routing requests to the appropriate backend service, applying cross-cutting concerns like authentication, rate limiting, caching, and circuit breaking, and providing a unified API interface.",
+  "dependencies": {
+    "amqplib": "^0.10.8",
+    "axios": "^1.9.0",
+    "body-parser": "^2.2.0",
+    "compression": "^1.8.0",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.1.0",
+    "http-status": "^2.1.0",
+    "joi": "^17.13.3",
+    "mongoose": "^8.15.1",
+    "morgan": "^1.10.0",
+    "node-cache": "^5.1.2",
+    "nodemon": "^3.1.9",
+    "opossum": "^8.4.0",
+    "passport": "^0.7.0",
+    "raw-body": "^3.0.0",
+    "uuid": "^11.1.0",
+    "winston": "^3.17.0",
+    "xss-clean": "^0.1.4"
+  },
+  "type": "commonjs"
+}

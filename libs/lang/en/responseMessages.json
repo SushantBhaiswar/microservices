@@ -1,0 +1,5 @@
+{
+    "USER_CREATED" : "User created successfully",
+    "LOGGED_IN" : "Logged In successfully",
+    "LOGGED_OUT" : "Logged Out successfully"
+}
