@@ -4,7 +4,7 @@ const {
   ApiError,
   ServicesNames,
   Communicate,
-} = require("@shared/libs");
+} = require("/usr/src/libs");
 const tokenService = require("./token.service");
 const getTokenRepository = require("../repositories/token.repositories");
 const TokenRepository = new getTokenRepository();

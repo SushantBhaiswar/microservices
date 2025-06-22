@@ -1,6 +1,6 @@
 // apps/api-gateway/src/middleware/cache.middleware.js
 const NodeCache = require("node-cache");
-const Logger = require("@shared/libs");
+const Logger = require("/usr/src/libs");
 
 // Initialize NodeCache (in a real app, you'd use Redis or similar)
 const cache = new NodeCache();

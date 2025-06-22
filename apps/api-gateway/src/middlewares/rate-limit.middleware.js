@@ -1,6 +1,6 @@
 // apps/api-gateway/src/middleware/rate-limit.middleware.js
 const rateLimit = require("express-rate-limit");
-const { Logger } = require("@shared/libs");
+const { Logger } = require("/usr/src/libs");
 const httpStatus = require("http-status");
 
 const createRateLimiter = (options) => {

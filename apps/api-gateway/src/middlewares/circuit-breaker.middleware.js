@@ -1,5 +1,5 @@
 const CircuitBreaker = require("opossum");
-const Logger = require("@shared/libs");
+const Logger = require("/usr/src/libs");
 const httpStatus = require("http-status");
 
 // This function creates a circuit breaker instance for a given service.

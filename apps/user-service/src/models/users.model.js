@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const { SchemaNames } = require("@shared/libs");
+const { SchemaNames } = require("/usr/src/libs");
 const userSchema = mongoose.Schema(
   {
     email: {

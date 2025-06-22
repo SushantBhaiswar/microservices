@@ -19,7 +19,7 @@ const bootstrap = async () => {
 
     // Connect to RabbitMQ
     await rabbitMQManager.connect({
-      uri: process.env.RABBITMQ_URI || "amqp://localhost",
+      uri: process.env.RABBITMQ_URI || "amqp://rabbitmq",
       heartbeat: 60,
       topology: rabbitMQConfig.topology,
     });

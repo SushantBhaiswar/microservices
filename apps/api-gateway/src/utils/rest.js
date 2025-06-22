@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { ApiError } = require("@shared/libs");
+const { ApiError } = require("/usr/src/libs");
 
 const restRequest = async (targetUrl, apiRoute, headers, body, timeout) => {
   const { method, path } = apiRoute;

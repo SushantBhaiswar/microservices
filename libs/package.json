@@ -1,5 +1,5 @@
 {
-  "name": "@shared/libs",
+  "name": "/usr/src/libs",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

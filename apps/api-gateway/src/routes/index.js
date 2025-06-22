@@ -1,5 +1,5 @@
 const express = require("express");
-const { ServicesInfo, Logger } = require("@shared/libs");
+const { ServicesInfo, Logger } = require("/usr/src/libs");
 const proxy = require("./proxy");
 const createRateLimiter = require("../middlewares/rate-limit.middleware");
 const createCircuitBreaker = require("../middlewares/circuit-breaker.middleware");

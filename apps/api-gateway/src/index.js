@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { app } = require("./app");
 const config = require("./config/config");
 
-const { Logger, rabbitMQ } = require("@shared/libs");
+const { Logger, rabbitMQ } = require("/usr/src/libs");
 const rabbitMQConfig = require("./rabbitMQ");
 
 // Async bootstrap function
@@ -15,9 +15,10 @@ const bootstrap = async () => {
 
     // Connect to RabbitMQ
     await rabbitMQ.connect({
-      uri: process.env.RABBITMQ_URI || "amqp://localhost",
+      uri: process.env.RABBITMQ_URI || "amqp://rabbitmq",
       heartbeat: 60,
       topology: rabbitMQConfig.topology,
+
     });
 
     // Graceful shutdown handler

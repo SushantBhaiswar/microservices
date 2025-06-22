@@ -1,5 +1,5 @@
 module.exports = {
-  uri: process.env.RABBITMQ_URI || "amqp://rabbitmq",
+  uri:  "amqp://rabbitmq",
   topology: {
     exchanges: require("./exchanges"),
     queues: require("./queues"),

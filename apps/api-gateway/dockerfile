@@ -1,11 +1,12 @@
 # Use an official Node.js runtime as a parent image
-FROM node:22-alpine AS stage
+FROM node:22-alpine AS base
 
 # Set the working directory
 WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json
-COPY apps/logging-service/package*.json ./
+COPY apps/api-gateway/package*.json ./
+
 
 # Install dependencies
 RUN npm install 
@@ -14,12 +15,10 @@ RUN npm install
 COPY apps/api-gateway ./
 COPY libs ./libs
 
-# Expose the port the app runs on
-EXPOSE 3000
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:3000/health || exit 1
+# Expose the port the app runs on
+EXPOSE 5001
+
 
 # Define the command to run the app
-
-CMD ["npm", "run", "dev"]
+CMD ["sh", "-c", "npm run start:${RUN_MODE}"]

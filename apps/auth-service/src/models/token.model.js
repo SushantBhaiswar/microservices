@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { DBEnums, SchemaNames } = require("@shared/libs");
+const { DBEnums, SchemaNames } = require("/usr/src/libs");
 const TokenTypes = DBEnums.TokenModel.getEnums();
 
 const tokenSchema = mongoose.Schema(

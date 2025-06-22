@@ -1,6 +1,6 @@
 const express = require("express");
 const httpStatus = require("http-status");
-const { APIError, Logger } = require("@shared/libs");
+const { APIError, Logger } = require("/usr/src/libs");
 
 module.exports = (serviceConfig, applyMiddlewares) => {
   const router = express.Router();

@@ -1,5 +1,5 @@
 const { AuthService } = require("../services");
-const { ResponseMessages, CatchAsync } = require("@shared/libs");
+const { ResponseMessages, CatchAsync } = require("/usr/src/libs");
 
 const login = CatchAsync(async (req, res) => {
   const response = await AuthService.loginUser(req);

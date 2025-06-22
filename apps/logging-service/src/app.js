@@ -3,7 +3,7 @@ const helmet = require("helmet");
 const compression = require("compression");
 const cors = require("cors");
 const httpStatus = require("http-status");
-const routes = require("./routes");
+// const routes = require("./routes");
 const app = express();
 
 const http = require("http");
@@ -12,7 +12,7 @@ const {
   RequestLogger,
   ApiError,
   ErrorConverter,
-} = require("@shared/libs");
+} = require("/usr/src/libs");
 
 // Create an HTTP server
 let server = http.createServer(app);
@@ -55,7 +55,7 @@ app.use(cors());
 // app.options("*", cors());
 
 // v1 api routes
-app.use("/v1", routes);
+// app.use("/v1", routes);
 
 // send back a 404 error for any unknown api request
 app.use((req, res, next) => {

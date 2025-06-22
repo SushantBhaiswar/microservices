@@ -11,7 +11,7 @@ const {
   RequestLogger,
   ApiError,
   ErrorConverter,
-} = require("@shared/libs");
+} = require("/usr/src/libs");
 
 // Create an HTTP server
 let server = http.createServer(app);

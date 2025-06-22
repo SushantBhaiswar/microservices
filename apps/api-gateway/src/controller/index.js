@@ -3,7 +3,7 @@ const { COMMUNICATION_TYPES } = require("../config/service"); // Import communic
 const restUtils = require("../utils/rest");
 // const grpcUtils = require('../utils/grpc');
 const rabbitmqUtils = require("../utils/rabbitmq");
-const logger = require("../../libs/logger/src"); // Adjust path to your logger
+const logger = require("/usr/src/libs/logger/src"); // Adjust path to your logger
 
 /**
  * Creates a middleware function that proxies the request to the target service

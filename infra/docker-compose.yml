@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   api-gateway:
     build:
@@ -8,10 +6,15 @@ services:
     container_name: api-gateway
     env_file:
       - ../apps/api-gateway/.env.dev
+    environment:
+      - RUN_MODE=${RUN_MODE:-dev}
+
     ports:
-      - "3000:3000"
+      - "5000:5000"
+      - "9229:9229"
     volumes:
       - ../apps/api-gateway:/usr/src/app
+      - /usr/src/app/node_modules
       - ../libs:/usr/src/libs
     networks:
       - service-network
@@ -19,7 +22,37 @@ services:
       - rabbitmq
       - logging-service
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:5000/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  auth-service:
+    build:
+      context: ../
+      dockerfile: apps/auth-service/dockerfile
+    container_name: auth-service
+    env_file:
+      - ../apps/auth-service/.env.dev
+    environment:
+      - RUN_MODE=${RUN_MODE:-dev}
+
+    ports:
+      - "5001:5001"
+      - "9230:9230"
+
+    volumes:
+      - ../apps/auth-service:/usr/src/app
+      - /usr/src/app/node_modules
+      - ../libs:/usr/src/libs
+    networks:
+      - service-network
+    depends_on:
+      - rabbitmq
+      - logging-service
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:5001/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -32,10 +65,15 @@ services:
     container_name: logging-service
     env_file:
       - ../apps/logging-service/.env.dev
+    environment:
+      - RUN_MODE=${RUN_MODE:-dev}
+
     ports:
-      - "3001:3001"
+      - "5002:5002"
+      - "9231:9231"
     volumes:
       - ../apps/logging-service:/usr/src/app
+      - /usr/src/app/node_modules
       - ../libs:/usr/src/libs
     networks:
       - service-network
@@ -43,7 +81,7 @@ services:
       - rabbitmq
 
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:5002/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -55,10 +93,15 @@ services:
     container_name: user-service
     env_file:
       - ../apps/user-service/.env.dev
+    environment:
+      - RUN_MODE=${RUN_MODE:-dev}
+
     ports:
-      - "3003:3003"
+      - "5003:5003"
+      - "9232:9232"
     volumes:
       - ../apps/user-service:/usr/src/app
+      - /usr/src/app/node_modules
       - ../libs:/usr/src/libs
     networks:
       - service-network
@@ -66,7 +109,7 @@ services:
       - rabbitmq
 
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3003/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:5003/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -81,7 +124,7 @@ services:
     networks:
       - service-network
     healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      test: [ "CMD", "rabbitmq-diagnostics", "ping" ]
       interval: 10s
       timeout: 5s
       retries: 5

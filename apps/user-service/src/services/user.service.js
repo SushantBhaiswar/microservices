@@ -1,7 +1,7 @@
 const getUserRepository = require("../repositories/users.repositories");
 const ApiError = require("../utils/ApiError");
 const userRepository = new getUserRepository();
-const { ErrorMessages } = require("@shared/libs");
+const { ErrorMessages } = require("/usr/src/libs");
 
 const createUser = async (req) => {
   const userData = req.body;

@@ -119,7 +119,7 @@ ENV NODE_ENV=production
 # Copy production dependencies
 
 COPY --from=deps --chown=nodeuser:nodejs /usr/src/app/node_modules ./node_modules
-COPY --from=deps --chown=nodeuser:nodejs /usr/src/app/libs/node_modules ./libs/node_modules
+COPY --from=deps --chown=nodeuser:nodejs /usr/src/libs/node_modules ./libs/node_modules
 
 # Copy application code
 
@@ -148,7 +148,7 @@ CMD ["dumb-init", "node", "src/app.js"]
 
 
 // index.js as per the service framework
-const ServiceFramework = require("/usr/src/libs");
+const ServiceFramework = require("/usr/src/libss");
 const rabbitMQ = require("./rabbitMQ");
 const { initializeFramework } = require("./app");
 const schema = require("./models");

@@ -1,4 +1,4 @@
-const { ResponseMessages, CatchAsync } = require("@shared/libs");
+const { ResponseMessages, CatchAsync } = require("/usr/src/libs");
 const { UserService } = require("../services");
 
 const createUsers = CatchAsync(async (req, res) => {

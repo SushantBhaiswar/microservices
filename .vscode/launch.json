@@ -1,0 +1,86 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug API Gateway",
+            "type": "node",
+            "request": "attach",
+            "port": 9229,
+            "address": "localhost",
+            "restart": true,
+            "localRoot": "${workspaceFolder}/apps/api-gateway",
+            "remoteRoot": "/usr/src/app",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "preLaunchTask": "start-debug-api-gateway"
+        },
+        {
+            "name": "Debug Auth Service",
+            "type": "node",
+            "request": "attach",
+            "port": 9230,
+            "address": "localhost",
+            "restart": true,
+            "localRoot": "${workspaceFolder}/apps/auth-service",
+            "remoteRoot": "/usr/src/app",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "preLaunchTask": "start-debug-auth-service"
+        },
+        {
+            "name": "Debug Logging Service",
+            "type": "node",
+            "request": "attach",
+            "port": 9231,
+            "address": "localhost",
+            "restart": true,
+            "localRoot": "${workspaceFolder}/apps/logging-service",
+            "remoteRoot": "/usr/src/app",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "preLaunchTask": "start-debug-logging-service"
+        },
+        {
+            "name": "Debug User Service",
+            "type": "node",
+            "request": "attach",
+            "port": 9232,
+            "address": "localhost",
+            "restart": true,
+            "localRoot": "${workspaceFolder}/apps/user-service",
+            "remoteRoot": "/usr/src/app",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "preLaunchTask": "start-debug-user-service"
+        },
+        {
+            "name": "Debug All Services",
+            "type": "node",
+            "request": "attach",
+            "port": 9229,
+            "address": "localhost",
+            "restart": true,
+            "localRoot": "${workspaceFolder}",
+            "remoteRoot": "/usr/src/app",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "preLaunchTask": "start-debug-all-services"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Debug Multiple Services",
+            "configurations": [
+                "Debug API Gateway",
+                "Debug Auth Service", 
+                "Debug Logging Service",
+                "Debug User Service"
+            ]
+        }
+    ]
+}

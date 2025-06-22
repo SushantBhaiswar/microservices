@@ -11,7 +11,8 @@ const {
   RequestLogger,
   ApiError,
   ErrorConverter,
-} = require("@shared/libs");
+} = require("/usr/src/libs");
+
 
 // Create an HTTP server
 let server = http.createServer(app);
@@ -54,6 +55,12 @@ app.use(cors());
 // app.options("*", cors());
 
 // v1 api routes
+app.use("/test", () => {
+  res.sendJSONResponse({
+    code: 200,
+    message: "success"
+  })
+});
 app.use("/api", routes);
 
 // send back a 404 error for any unknown api request

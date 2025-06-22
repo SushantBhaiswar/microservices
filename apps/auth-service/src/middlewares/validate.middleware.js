@@ -4,7 +4,7 @@
 const Joi = require("joi");
 const httpStatus = require("http-status");
 const pick = require("../utils/pick");
-const { ApiError } = require("@shared/libs");
+const { ApiError } = require("/usr/src/libs");
 
 const validate = (schema) => async (req, res, next) => {
   const validSchema = pick(schema, ["params", "query", "body"]);
