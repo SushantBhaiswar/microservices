@@ -16,6 +16,7 @@ services:
       - ../apps/api-gateway:/usr/src/app
       - /usr/src/app/node_modules
       - ../libs:/usr/src/libs
+      - ../scripts:/usr/src/scripts
     networks:
       - service-network
     depends_on:
@@ -46,6 +47,8 @@ services:
       - ../apps/auth-service:/usr/src/app
       - /usr/src/app/node_modules
       - ../libs:/usr/src/libs
+      - ../scripts:/usr/src/scripts
+
     networks:
       - service-network
     depends_on:
@@ -75,6 +78,7 @@ services:
       - ../apps/logging-service:/usr/src/app
       - /usr/src/app/node_modules
       - ../libs:/usr/src/libs
+      - ../scripts:/usr/src/scripts
     networks:
       - service-network
     depends_on:
@@ -103,6 +107,7 @@ services:
       - ../apps/user-service:/usr/src/app
       - /usr/src/app/node_modules
       - ../libs:/usr/src/libs
+      - ../scripts:/usr/src/scripts
     networks:
       - service-network
     depends_on:

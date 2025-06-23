@@ -1,9 +1,11 @@
 /* eslint-disable eqeqeq */
 const { Strategy: JwtStrategy, ExtractJwt } = require("passport-jwt");
 const config = require("./config");
-const { tokenTypes } = require("./tokens");
-const communicate = require("../service-communication/communicate");
-const apiEndPoints = require("../service-communication/api-endPoints");
+const { DBEnums } = require("/usr/src/libs");
+const TokenTypes = DBEnums.TokenModel.getEnums();
+const {  Communicate} = require("/usr/src/libs");
+const apiEndPoints = require("../config/api-endPoints");
+
 const jwtOptions = {
   secretOrKey: config.jwt.secret,
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -12,10 +14,10 @@ const jwtOptions = {
 // strategy for all routes
 const jwtVerify = async (payload, done) => {
   try {
-    if (payload.type !== tokenTypes.ACCESS) {
+    if (payload.type !== TokenTypes.ACCESS) {
       throw new Error("Invalid token type");
     }
-    const user = await communicate("user-service", apiEndPoints["GET_USER"], {
+    const user = await Communicate("user-service", apiEndPoints["GET_USER"], {
       _id: payload.sub,
     });
     console.log(user.data);

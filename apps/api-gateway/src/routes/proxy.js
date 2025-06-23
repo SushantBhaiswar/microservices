@@ -16,17 +16,21 @@ const proxyRequest = (serviceConfig, versionConfig = {}) => {
     const timeout = versionConfig.timeout || 10000;
 
     try {
+      // Clone headers to avoid mutating the original
+      const headers = { ...req.headers };
+      if (req.user && (req.user._id || req.user.id)) {
+        headers["x-user-id"] = req.user._id || req.user.id;
+      }
       switch (communication) {
         case "rest":
           const restResult = await restUtils.restRequest(
             url,
             { method: req.method, path: req.path },
-            req.headers,
+            headers,
             req.body,
             timeout
           );
           res.sendJSONResponse(restResult.data);
-
           break;
 
         // case COMMUNICATION_TYPES.GRPC:

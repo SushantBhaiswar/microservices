@@ -1,22 +1,22 @@
-const errorHandler = async (err, req, res, next) => {
-  let { statusCode, message } = err;
+const  ResponseMessages  = require("../lang/en/responseMessages.json");
+const logger = require("../logger");
 
-  res.locals.errorMessage = err.message;
+const errorHandler = (err, req, res, next) => {
+  let { statusCode, message, errorKey, details, service } = err;
+  const serviceName = process.env.SERVICE_NAME || "unknown";
+    logger.error(err);
+  // If message is a key, map to actual message
+  const userMessage = ResponseMessages[message] || message || "Unknown error";
 
-  const response = {
-    code: statusCode,
-    message,
-    ...(config.env === "development" && { stack: err.stack }),
-  };
-
-  if (statusCode == 500) response.message = "Internal Server Error!";
-  logger.error(err);
-  res.sendJSONResponse({
-    code: statusCode,
+    res.sendJSONResponse({
+    code: statusCode || 500,
     status: false,
-    message: message,
-    ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
-  });
+    message: userMessage,
+    errorKey: errorKey || message,
+    details: details || {},
+    service: service || serviceName,
+    ...(process.env.NODE_ENV === "development" && { stack: err.stack })
+    });
 };
 
 module.exports = errorHandler;

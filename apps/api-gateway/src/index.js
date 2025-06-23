@@ -1,11 +1,9 @@
 const mongoose = require("mongoose");
-const { app } = require("./app");
+const app = require("./app");
 const config = require("./config/config");
-
 const { Logger, rabbitMQ } = require("/usr/src/libs");
 const rabbitMQConfig = require("./rabbitMQ");
 
-// Async bootstrap function
 const bootstrap = async () => {
   try {
     // Start HTTP server
@@ -18,50 +16,37 @@ const bootstrap = async () => {
       uri: process.env.RABBITMQ_URI || "amqp://rabbitmq",
       heartbeat: 60,
       topology: rabbitMQConfig.topology,
-
     });
 
-    // Graceful shutdown handler
+    // Graceful shutdown
     const shutdown = async (signal) => {
       Logger.info(`${signal} received - shutting down`);
       try {
-        // Close HTTP server
         await new Promise((resolve) => server.close(resolve));
-
-        // Close MongoDB connection
         await mongoose.connection.close();
-
-        // Close RabbitMQ connection
         await rabbitMQ.close();
-
         Logger.info("All connections closed");
         process.exit(0);
       } catch (error) {
-        Logger.error("Error during shutdown", { error: error });
+        Logger.error("Error during shutdown", { error });
         process.exit(1);
       }
     };
 
-    // Process signal handlers
     process.on("SIGTERM", () => shutdown("SIGTERM"));
     process.on("SIGINT", () => shutdown("SIGINT"));
-
-    // Uncaught exception handlers
     process.on("uncaughtException", (error) => {
-      Logger.error("Uncaught Exception", { error: error });
+      Logger.error("Uncaught Exception", { error });
       shutdown("uncaughtException");
     });
-
     process.on("unhandledRejection", (reason, promise) => {
       Logger.error("Unhandled Rejection", { promise, reason });
       shutdown("unhandledRejection");
     });
   } catch (error) {
-    console.log("🚀 ~ bootstrap ~ error:", error);
-    Logger.error("Bootstrap failed", { error: error });
+    Logger.error("Bootstrap failed", { error });
     process.exit(1);
   }
 };
 
-// Start the service
 bootstrap();

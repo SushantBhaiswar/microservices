@@ -3,8 +3,7 @@ const {
   ClientErrMessages,
   ApiError,
   ServicesNames,
-  Communicate,
-} = require("/usr/src/libs");
+  Communicate} = require("/usr/src/libs");
 const tokenService = require("./token.service");
 const getTokenRepository = require("../repositories/token.repositories");
 const TokenRepository = new getTokenRepository();
@@ -16,14 +15,7 @@ const loginUser = async (req) => {
     req.body
   );
 
-  if (!user.status) {
-    throw new ApiError("400", user.message);
-  }
-
-  if (!user.data) {
-    throw new ApiError("400", "Invalid credentials");
-  }
-
+  
   const tokens = await tokenService.generateAuthTokens(user.data, true);
 
   return { user: user.data, tokens };
@@ -55,7 +47,7 @@ const registerUser = async (req) => {
   );
 
   if (user.data) {
-    throw new ApiError(409, ClientErrMessages.EMAIL_EXIST);
+    throw new ApiError(409, "EMAIL_EXIST");
   }
 
   const createdUser = await Communicate(

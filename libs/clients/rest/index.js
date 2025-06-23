@@ -1,6 +1,6 @@
 const axios = require("axios");
-const logger = require("../config/logger");
-const ApiError = require("./ApiError");
+const logger = require("../../logger/index");
+const ApiError = require("../../error-manager/apiError");
 
 const restRequest = async (targetUrl, apiRoute, headers, body, timeout) => {
   const { method, path } = apiRoute;

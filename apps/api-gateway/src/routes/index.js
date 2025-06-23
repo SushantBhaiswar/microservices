@@ -4,6 +4,8 @@ const proxy = require("./proxy");
 const createRateLimiter = require("../middlewares/rate-limit.middleware");
 const createCircuitBreaker = require("../middlewares/circuit-breaker.middleware");
 const createCacheMiddleware = require("../middlewares/cache.middleware");
+const auth = require("../middlewares/authentication.middleware");
+const publicRoutes = require("../config/publicRoutes");
 
 const router = express.Router();
 
@@ -24,8 +26,18 @@ const gatewayMiddlewares = {
 const buildMiddlewareChain = (ServicesInfo, versionConfig) => {
   const middlewares = [];
 
+  // Insert authentication middleware for protected routes only
+  middlewares.push((req, res, next) => {
+    const fullPath = `${ServicesInfo.prefix}/${versionConfig.version || ''}${req.path}`.replace(/\/+/g, '/');
+    if (publicRoutes.includes(fullPath)) {
+      return next();
+    }
+    // Use the new auth middleware signature
+    return auth()(req, res, next);
+  });
+
   // Apply gateway-level middlewares
-  (`versionConfig`.middleware || []).forEach((middlewareName) => {
+  (versionConfig.middleware || []).forEach((middlewareName) => {
     if (gatewayMiddlewares[middlewareName]) {
       let middlewareInstance;
       if (middlewareName === "rateLimit") {

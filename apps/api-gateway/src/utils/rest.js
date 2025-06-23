@@ -5,6 +5,7 @@ const restRequest = async (targetUrl, apiRoute, headers, body, timeout) => {
   const { method, path } = apiRoute;
   const fullTargetUrl = `${targetUrl}${path}`;
 
+  console.log("🚀 ~ restRequest ~ fullTargetUrl:", fullTargetUrl)
   const filterHeaders = (headers) => {
     const {
       "content-length": _cl,

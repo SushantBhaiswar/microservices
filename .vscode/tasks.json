@@ -4,7 +4,7 @@
         {
             "label": "start-debug-all-services",
             "type": "shell",
-            "command": "$env:RUN_MODE='debug'; docker-compose up --build -d",
+            "command": "$env:RUN_MODE='debug'; docker compose up --build -d",
             "group": "build",
             "presentation": {
                 "echo": true,
@@ -23,7 +23,7 @@
         {
             "label": "start-debug-api-gateway",
             "type": "shell",
-            "command": "$env:RUN_MODE='debug'; docker-compose up --build -d api-gateway",
+            "command": "$env:RUN_MODE='debug'; docker compose up --build -d api-gateway",
             "group": "build",
             "presentation": {
                 "echo": true,
@@ -42,7 +42,7 @@
         {
             "label": "start-debug-auth-service",
             "type": "shell",
-            "command": "$env:RUN_MODE='debug'; docker-compose up --build -d auth-service",
+            "command": "$env:RUN_MODE='debug'; docker compose up --build -d auth-service",
             "group": "build",
             "presentation": {
                 "echo": true,
@@ -61,7 +61,7 @@
         {
             "label": "start-debug-logging-service",
             "type": "shell",
-            "command": "$env:RUN_MODE='debug'; docker-compose up --build -d logging-service",
+            "command": "$env:RUN_MODE='debug'; docker compose up --build -d logging-service",
             "group": "build",
             "presentation": {
                 "echo": true,
@@ -80,7 +80,7 @@
         {
             "label": "start-debug-user-service",
             "type": "shell",
-            "command": "$env:RUN_MODE='debug'; docker-compose up --build -d user-service",
+            "command": "$env:RUN_MODE='debug'; docker compose up --build -d user-service",
             "group": "build",
             "presentation": {
                 "echo": true,
@@ -99,7 +99,7 @@
         {
             "label": "stop-all-services",
             "type": "shell",
-            "command": "docker-compose down",
+            "command": "docker compose down",
             "group": "build",
             "presentation": {
                 "echo": true,

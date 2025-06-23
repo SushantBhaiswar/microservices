@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const logger = require("../logger");
+const logger = require("../logger/index");
 const ApiError = require("../error-handler/apiError");
 const MongoDBBaseRepository = require("../db-clients/src/mongodb");
 class DatabaseManager {

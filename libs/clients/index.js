@@ -1,11 +1,11 @@
 const httpStatus = require("http-status");
-const APIError = require("../utils/ApiError");
-const servicesConfig = require("../config/services");
+const ApiError = require("../error-manager/apiError");
+const servicesConfig = require("../config/services.info");
 const { restRequest } = require("./rest/index");
 const crypto = require("crypto");
 const { promisify } = require("util");
 const randomBytes = promisify(crypto.randomBytes);
-const config = require("../config/config");
+const config = require("../config/index");
 
 const generateServiceToken = async () => {
   const timestamp = Date.now();
@@ -23,14 +23,14 @@ module.exports = async (serviceName, apiRoute, data = {}) => {
   try {
     // Validate input parameters
     if (!apiRoute || !Object.keys(apiRoute).length) {
-      throw new APIError(
+      throw new ApiError(
         httpStatus.BAD_REQUEST,
         "Invalid api routing parameter"
       );
     }
 
     if (!serviceName || typeof serviceName !== "string") {
-      throw new APIError(
+      throw new ApiError(
         httpStatus.BAD_REQUEST,
         "Invalid service name parameter"
       );
@@ -39,7 +39,7 @@ module.exports = async (serviceName, apiRoute, data = {}) => {
     // Get service configuration
     const serviceConfig = servicesConfig[serviceName];
     if (!serviceConfig) {
-      throw new APIError(
+      throw new ApiError(
         httpStatus.NOT_FOUND,
         `Service '${serviceName}' not found in configuration`
       );
@@ -49,14 +49,14 @@ module.exports = async (serviceName, apiRoute, data = {}) => {
     const { communication, url } = serviceConfig;
 
     if (!communication) {
-      throw new APIError(
+      throw new ApiError(
         httpStatus.INTERNAL_SERVER_ERROR,
         `Missing communication type for service '${serviceName}'`
       );
     }
 
     if (!url) {
-      throw new APIError(
+      throw new ApiError(
         httpStatus.INTERNAL_SERVER_ERROR,
         `Missing URL configuration for service '${serviceName}'`
       );
@@ -73,18 +73,26 @@ module.exports = async (serviceName, apiRoute, data = {}) => {
         );
         return response.data;
       case "grpc":
-        throw new APIError(
+        throw new ApiError(
           httpStatus.NOT_IMPLEMENTED,
           `gRPC communication not implemented for service '${serviceName}'`
         );
 
       default:
-        throw new APIError(
+        throw new ApiError(
           httpStatus.INTERNAL_SERVER_ERROR,
           `Unsupported communication type '${communication}' for service '${serviceName}'`
         );
     }
   } catch (error) {
-    throw new APIError(httpStatus.INTERNAL_SERVER_ERROR, error);
+    if (error.response && error.response.data && error.response.data.errorKey) {
+      throw new ApiError(
+        error.response.data.code || 400,
+        error.response.data.errorKey,
+        false,
+        error.response.data.message
+      );
+    }
+    throw new ApiError(503, "SERVICE_UNAVAILABLE", false, error);
   }
 };

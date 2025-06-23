@@ -1,3 +1,5 @@
+const { v4: uuidv4 } = require("uuid");
+const logger = require("../logger/index");
 const requestLogger = (req, res, next) => {
   const incomingTraceId = req.headers["x-trace-id"];
   const incomingSpanId = req.headers["x-span-id"];

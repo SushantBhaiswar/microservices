@@ -1,6 +1,6 @@
 module.exports = {
   Logger: require("./logger"),
-  Communicate: require("./error-manager/apiError"),
+  Communicate: require("./clients/index"),
   ...require("./error-manager"),
   ...require("./config"),
   ClientErrMessages: require("./lang/en/clientSideError.json"),

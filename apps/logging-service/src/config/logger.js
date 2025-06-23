@@ -1,6 +1,8 @@
 const winston = require("winston");
 const config = require("./config");
 
+const serviceName = process.env.SERVICE_NAME || "logging-service";
+
 const enumerateErrorFormat = winston.format((info) => {
   if (info instanceof Error) {
     Object.assign(info, { message: info.stack });
@@ -18,14 +20,15 @@ const baseFormat = winston.format.combine(
 const consoleFormat = winston.format.combine(
   baseFormat,
   winston.format.colorize(),
-  winston.format.printf(({ level, message, timestamp, ...meta }) => {
-    return `${timestamp} [${level}] [${meta.service || "unknown"}] ${message}`;
+  winston.format.printf(({ level, message, timestamp, service, ...meta }) => {
+    return `${timestamp} [${level}] [${service || serviceName}] ${message}`;
   })
 );
 
 const logger = winston.createLogger({
   level: config.env === "development" ? "debug" : "info",
   format: baseFormat,
+  defaultMeta: { service: serviceName },
   transports: [
     new winston.transports.Console({
       format: consoleFormat,

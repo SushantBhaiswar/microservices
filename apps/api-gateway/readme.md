@@ -65,7 +65,7 @@ All requests to backend service are routed through the API Gateway.
 
 1.  **Install dependencies:** `npm install` in the `api-gateway` directory.
 2.  **Run locally:** `npm run dev` (uses nodemon for auto-restarts).
-3.  **Run with Docker Compose:** From the project root, `docker compose -f infra/docker/development/docker-compose.yml up api-gateway`.
+3.  **Run with Docker Compose:** From the project root, `docker compose -f infra/docker/development/docker compose.yml up api-gateway`.
 
 ## Testing
 

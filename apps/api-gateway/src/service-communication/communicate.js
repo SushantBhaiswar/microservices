@@ -1,6 +1,6 @@
 const httpStatus = require("http-status");
 const APIError = require("../utils/ApiError");
-const servicesConfig = require("../config/services");
+const servicesConfig = require("../");
 const { restRequest } = require("../utils/rest");
 const config = require("../config/config");
 

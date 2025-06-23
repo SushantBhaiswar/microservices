@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { app } = require("./app");
+const app = require("./app");
 const config = require("./config/config");
 const { rabbitMQ, Logger } = require("/usr/src/libs");
 const rabbitMQConfig = require("./rabbitMQ");
@@ -23,49 +23,33 @@ const bootstrap = async () => {
       topology: rabbitMQConfig.topology,
     });
 
-    // Start consumers with application context
-    // await rabbitMQManager.startConsumers(rabbitMQConfig.consumers);
-
-    // Logger.info("RabbitMQ consumers started");
-
-    // Graceful shutdown handler
+    // Graceful shutdown
     const shutdown = async (signal) => {
       Logger.info(`${signal} received - shutting down`);
       try {
-        // Close HTTP server
         await new Promise((resolve) => server.close(resolve));
-
-        // Close MongoDB connection
         await mongoose.connection.close();
-
-        // Close RabbitMQ connection
-        await rabbitMQManager.close();
-
+        await rabbitMQ.close();
         Logger.info("All connections closed");
         process.exit(0);
       } catch (error) {
-        Logger.error("Error during shutdown", { error: error.message });
+        Logger.error("Error during shutdown", { error });
         process.exit(1);
       }
     };
 
-    // Process signal handlers
     process.on("SIGTERM", () => shutdown("SIGTERM"));
     process.on("SIGINT", () => shutdown("SIGINT"));
-
-    // Uncaught exception handlers
     process.on("uncaughtException", (error) => {
-      Logger.error("Uncaught Exception", { error: error.message });
+      Logger.error("Uncaught Exception", { error });
       shutdown("uncaughtException");
     });
-
     process.on("unhandledRejection", (reason, promise) => {
       Logger.error("Unhandled Rejection", { promise, reason });
       shutdown("unhandledRejection");
     });
   } catch (error) {
-    console.log("🚀 ~ bootstrap ~ error:", error);
-    Logger.error("Bootstrap failed", { error: error.message });
+    Logger.error("Bootstrap failed", { error });
     process.exit(1);
   }
 };
